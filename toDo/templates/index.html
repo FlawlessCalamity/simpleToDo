@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+    <h1>To Do's</h1>
+    <br/>
+    <div class='toDo'>
+        <form method = 'POST'> {% csrf_token %}
+            {{add_form.task}}
+            <div class='toDo_add_btn_div'>
+                <input type='submit' value='Add' class='toDo_submit'/>
+            </div>
+            
+        </form>
+         <div style='clear:both;'></div>
+    </div>
+   
+    <h3>Uncompleted Tasks</h3>
+    
+    {% for toDo in full_list %}
+        {% if toDo.completed == False %}
+            <div class='toDo' id='{{ toDo.id }}'>
+                    <div class='toDo_check'><form action='delete-to-do/{{toDo.id}}/' method='POST'>{% csrf_token %}<input type='submit' value='Done' class='toDo_done'/></form></div>
+                    <div class='toDo_task'><p name='task'>{{ toDo.task }}</p></div>
+                    <div style='clear:both;'></div>
+            </div>
+        {% endif %}
+    {% endfor %}
+{% endblock content %}
